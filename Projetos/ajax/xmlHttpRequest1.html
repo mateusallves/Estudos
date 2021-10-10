@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Estados</h1>
+
+    <script>
+        function requisicao(config) {
+            const abc = new XMLHttpRequest()
+            abc.open("GET", config.url, true)
+
+            abc.onload = e => {
+                if (abc.status === 200) {
+                    config.sucesso(abc.response)
+                } else if (abc.status >= 400) {
+                    config.erro({
+                        code: abc.status,
+                        text: abc.statusText
+                    })
+                }
+            }
+            abc.send()
+        }
+
+        function criarTabela(estados){
+            const linhas = estados.map(estado => {
+                    const tdId = document.createElement('td')
+                    tdId.innerHTML = estado.id
+
+                    const tdNome = document.createElement('td')
+                    tdNome.innerHTML = estado.nome
+
+                    const tdSigla = document.createElement('td')
+                    tdSigla.innerHTML = estado.sigla
+
+                    const tr = document.createElement('tr')
+
+                    tr.appendChild(tdId)
+                    tr.appendChild(tdNome)
+                    tr.appendChild(tdSigla)
+                    return tr
+                })
+
+                const tabela = document.createElement('table')
+                linhas.forEach(linha => tabela.appendChild(linha))
+                document.body.appendChild(tabela)
+        }
+
+        requisicao({
+            url: "dados/estados.json",
+            metodo: "get",
+            sucesso(resposta) {
+                const estados = JSON.parse(resposta)
+                criarTabela(estados)
+            },
+            erro(e) {
+                const msg = document.createTextNode(`${e.code}: ${e.text}`)
+            }
+        })
+    </script>
+</body>

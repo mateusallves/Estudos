@@ -1,0 +1,15 @@
+#textoPrincipal{
+    font-size: 40px;
+    font-weight: bold;
+    background-color: #444;
+    color: #fff;
+    margin-bottom: 50px;
+}
+h1{
+    font-size: 50px;}
+.fundoVermelho {
+    background-color: #C00;
+}
+.negrito{
+    font-weight: bold;
+}
